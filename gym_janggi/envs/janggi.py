@@ -1,18 +1,12 @@
 import gym
 from gym import spaces
-import pygame
 import numpy as np
 
 
-class GridWorldEnv(gym.Env):
-    metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 4}
+class JanggiEnv(gym.Env):
+    metadata = {"render_modes": ["ansi"]}
 
-    def __init__(self, size=5):
-        self.size = size  # The size of the square grid
-        self.window_size = 512  # The size of the PyGame window
-
-        # Observations are dictionaries with the agent's and the target's location.
-        # Each location is encoded as an element of {0, ..., `size`}^2, i.e. MultiDiscrete([size, size]).
+    def __init__(self):
         self.observation_space = spaces.Dict(
             {
                 "agent": spaces.Box(0, size - 1, shape=(2,), dtype=int),
