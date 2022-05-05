@@ -2,6 +2,8 @@ import gym
 from gym import spaces
 import numpy as np
 
+import gym_janggi.classes.
+
 
 class JanggiEnv(gym.Env):
     metadata = {"render_modes": ["ansi"]}
