@@ -1,6 +1,7 @@
 from .janggi_game import JanggiGame
-from classes.grid import Grid
 import classes.constant as constant
+from classes.grid import Grid
+from classes.piece import Piece
 
 
 def gridsToAction(origin: Grid, dest: Grid):
