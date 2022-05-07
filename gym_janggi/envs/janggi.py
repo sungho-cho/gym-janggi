@@ -2,22 +2,20 @@ import gym
 from gym import spaces
 import numpy as np
 
-import gym_janggi.classes.
+from gym_janggi import constants, conversion
 
 
 class JanggiEnv(gym.Env):
     metadata = {"render_modes": ["ansi"]}
 
     def __init__(self):
-        self.observation_space = spaces.Dict(
-            {
-                "agent": spaces.Box(0, size - 1, shape=(2,), dtype=int),
-                "target": spaces.Box(0, size - 1, shape=(2,), dtype=int),
-            }
+         self.observation_space = spaces.Box(
+            low=-constants.NUM_PIECE_TYPE,
+            high=constants.NUM_PIECE_TYPE,
+            shape=(constants.NUM_ROWS, constants.NUM_COLS),
+            dtype=int
         )
-
-        # We have 4 actions, corresponding to "right", "up", "left", "down", "right"
-        self.action_space = spaces.Discrete(4)
+        self.action_space = spaces.Discrete(constants.ACTION_SPACE)
 
         """
         The following dictionary maps abstract actions from `self.action_space` to 
