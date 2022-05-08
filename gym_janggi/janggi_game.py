@@ -22,9 +22,12 @@ class JanggiGame:
 
         # detenmine if game's over
         game_over = False
+        piece_value = 0
         dest_piece = self.board.get(dest.row, dest.col)
-        if dest_piece and dest_piece.piece_type == PieceType.GENERAL:
-            game_over = True
+        if dest_piece:
+            piece_value = dest_piece.value
+            if dest_piece.piece_type == PieceType.GENERAL:
+                game_over = True
 
         # make the move
         piece = self.board.get(origin.row, origin.col)
@@ -39,7 +42,7 @@ class JanggiGame:
 
         print(self.board)
 
-        return game_over
+        return piece_value, game_over
 
     def get_all_moves(self):
         possible_moves = []
