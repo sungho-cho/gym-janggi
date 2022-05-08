@@ -56,6 +56,7 @@ class JanggiEnv(gym.Env):
 
         return observation, reward, done, info
 
+    @property
     def legal_actions(self):
         actions = []
         for origin, dest in self._game.get_all_moves():
