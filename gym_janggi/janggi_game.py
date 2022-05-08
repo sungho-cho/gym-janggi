@@ -14,9 +14,9 @@ class JanggiGame:
         self.cho_score = self.han_score = 0.0
         self._initialize_board(cho_formation, han_formation)
 
-    def make_move(self, origin: Grid, dest: Grid, piece_type: PieceType):
+    def make_move(self, origin: Grid, dest: Grid):
         # validate the given move
-        if not self._validate_move(origin, dest, piece_type):
+        if not self._validate_move(origin, dest):
             print("the move cannot be made!")
             return
 
@@ -41,11 +41,14 @@ class JanggiGame:
 
         return game_over
 
-    def get_all_destinations(self, origin: Grid):
-        move_sets = self._get_possible_move_sets(origin)
-        all_dest = [ms.get_dest(self.board, origin, self.turn)
-                    for ms in move_sets]
-        return all_dest
+    def get_all_moves(self):
+        possible_moves = []
+        piece_locations = self.board.get_piece_locations(self.turn)
+        for piece_grid in piece_locations:
+            destinations = self._get_all_destinations(piece_grid)
+            possible_moves += [(piece_grid, dest_grid)
+                               for dest_grid in destinations]
+        return possible_moves
 
     def _initialize_board(self, cho_formation: Formation, han_formation: Formation):
         self.board = Board()
@@ -66,6 +69,12 @@ class JanggiGame:
         self.cho_score = self.board.get_score(Camp.CHO)
         self.han_score = self.board.get_score(
             Camp.HAN) + constants.HAN_ADVANTAGE
+
+    def _get_all_destinations(self, origin: Grid):
+        move_sets = self._get_possible_move_sets(origin)
+        all_dest = [ms.get_dest(self.board, origin, self.turn)
+                    for ms in move_sets]
+        return all_dest
 
     def _get_possible_move_sets(self, origin: Grid):
         def is_out_of_bound(grid: Grid):
@@ -99,7 +108,7 @@ class JanggiGame:
             self.board, origin, self.turn)]
         return move_sets
 
-    def _validate_move(self, origin: Grid, dest: Grid, piece_type: PieceType):
+    def _validate_move(self, origin: Grid, dest: Grid):
         def _is_out_of_bound(grid: Grid):
             return (grid.row < constants.MIN_ROW or grid.row > constants.MAX_ROW or
                     grid.col < constants.MIN_COL or grid.col > constants.MAX_COL)
@@ -114,10 +123,6 @@ class JanggiGame:
         if not origin_piece:
             return False
 
-        # Invalidate when piece type is wrong
-        if origin_piece.piece_type != piece_type:
-            return False
-
         # Invalidate when wrong camp
         if origin_piece.camp != self.turn:
             return False
@@ -127,7 +132,7 @@ class JanggiGame:
             return False
 
         # See if destination is in list of all possible destinatins from origin
-        if dest not in self.get_all_destinations(origin):
+        if dest not in self._get_all_destinations(origin):
             return False
 
         # TODO: Invalidate the move makes it enemy's "Janggun"

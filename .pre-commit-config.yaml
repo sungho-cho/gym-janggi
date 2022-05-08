@@ -1,6 +1,6 @@
 ---
 repos:
-  - repo: https://github.com/python/black
-    rev: 22.3.0
+  - repo: https://github.com/sungho-cho/gym-janggi
+    rev: 0.0.1
     hooks:
-      - id: black
+      - id: sungho-cho
