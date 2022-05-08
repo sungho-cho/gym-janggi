@@ -43,5 +43,8 @@ def board_to_obs(board: Board):
     for row in range(constants.MIN_ROW, constants.MAX_ROW+1):
         for col in range(constants.MIN_COL, constants.MAX_COL+1):
             if board.get(row, col):
-                int_board[row][col] = int(board.get(row, col))
+                try:
+                    int_board[row][col] = int(board.get(row, col))
+                except Exception as e:
+                    print(f"{e} ({row},{col}) {board.get(row,col).camp}")
     return np.array(int_board)

@@ -58,7 +58,7 @@ class JanggiEnv(gym.Env):
 
     def legal_actions(self):
         actions = []
-        for origin, dest in self._game.get_all_moves:
+        for origin, dest in self._game.get_all_moves():
             actions.append(grids_to_action(origin, dest))
         return actions
 
