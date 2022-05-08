@@ -1,5 +1,5 @@
-from classes import constants
-from classes.piece import PieceType
+from .classes import constants
+from .classes.piece import PieceType
 
 NUM_PIECE_TYPE = len(PieceType)
 

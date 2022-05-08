@@ -45,8 +45,7 @@ class JanggiEnv(gym.Env):
 
         self._game = generate_random_game()
         observation = self._get_obs()
-        info = self._get_info()
-        return (observation, info) if return_info else observation
+        return observation
 
     def step(self, action):
         (origin, dest) = action_to_grids(action)
@@ -56,7 +55,6 @@ class JanggiEnv(gym.Env):
 
         return observation, reward, done, info
 
-    @property
     def legal_actions(self):
         actions = []
         for origin, dest in self._game.get_all_moves():
@@ -66,6 +64,20 @@ class JanggiEnv(gym.Env):
     def render(self, mode='ansi'):
         print(f"cho: {self._game.cho_score} / han: {self._game.han_score}")
         print(self._game.board)
+
+    def to_play(self) -> int:
+        return self._game.turn.value
+
+    def human_input_to_action() -> int:
+        action = int(input("Enter action (0~9999):"))
+        if action > 0 and action < 9999:
+            return True, action
+        else:
+            return False, None
+
+    def action_to_human_input(self, action: int):
+        origin, dest = action_to_grids(action)
+        return f"({origin.row}, {origin.col}) to ({dest.row}, {dest.col})"
 
     def close(self):
         self._game = None

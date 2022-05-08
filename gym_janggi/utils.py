@@ -1,12 +1,12 @@
 import numpy as np
 import random
 
-import constants
-from classes.board import Board
-from classes.camp import Camp
-from classes.formation import Formation
-from classes.grid import Grid
-from janggi_game import JanggiGame
+from . import constants
+from .classes.board import Board
+from .classes.camp import Camp
+from .classes.formation import Formation
+from .classes.grid import Grid
+from .janggi_game import JanggiGame
 
 
 def generate_random_game():
@@ -42,9 +42,8 @@ def board_to_obs(board: Board):
                  for j in range(constants.NUM_ROWS+1)]
     for row in range(constants.MIN_ROW, constants.MAX_ROW+1):
         for col in range(constants.MIN_COL, constants.MAX_COL+1):
-            if board.get(row, col):
-                try:
-                    int_board[row][col] = int(board.get(row, col))
-                except Exception as e:
-                    print(f"{e} ({row},{col}) {board.get(row,col).camp}")
+            if board.get(row, col) is not None:
+                int_board[row][col] = int(board.get(row, col))
+            else:
+                int_board[row][col] = 0
     return np.array(int_board)
