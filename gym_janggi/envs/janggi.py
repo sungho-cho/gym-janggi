@@ -51,9 +51,8 @@ class JanggiEnv(gym.Env):
         (origin, dest) = action_to_grids(action)
         reward, done = self._game.make_move(origin, dest)
         observation = self._get_obs()
-        info = self._get_info()
 
-        return observation, reward, done, info
+        return observation, reward, done
 
     def legal_actions(self):
         actions = []
