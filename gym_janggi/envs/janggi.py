@@ -13,7 +13,6 @@ from gym_janggi.utils import (
     action_to_grids,
     grids_to_action,
 )
-from gym_janggi.janggi_game import JanggiGame
 
 
 class JanggiEnv(gym.Env):
@@ -29,6 +28,7 @@ class JanggiEnv(gym.Env):
         self.action_space = spaces.Discrete(ACTION_SPACE)
 
         self._game = generate_random_game()
+        self.turn = self._game.turn.value
 
     def _get_obs(self):
         return board_to_obs(self._game.board)

@@ -20,6 +20,8 @@ var/
 .installed.cfg
 *.egg
 .env/
+include/
+share/
 
 # Installer logs
 pip-log.txt

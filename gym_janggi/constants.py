@@ -1,5 +1,4 @@
-from .classes import constants
-from .classes.piece import PieceType
+from janggi import constants, PieceType
 
 NUM_PIECE_TYPE = len(PieceType)
 

@@ -3,7 +3,7 @@ import gym_janggi
 import time
 import random
 
-from .utils import action_to_grids
+from utils import action_to_grids
 
 
 def main():
