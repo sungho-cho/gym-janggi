@@ -88,7 +88,9 @@ class JanggiEnv(gym.Env):
         """
         Properly close the game.
         """
+        history = self._game.history
         self._game = None
+        return history
 
     def render(self, mode='ansi'):
         """
