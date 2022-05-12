@@ -3,7 +3,9 @@ import gym_janggi
 import time
 import random
 
-from utils import action_to_grids
+from janggi import Camp
+
+from utils import action_to_locations
 
 
 def main():
@@ -14,24 +16,18 @@ def main():
     done = False
     round = 0
     while not done:
-        # Add a slight delay to properly visualize the game.
-        # time.sleep(1)
-
         legal_actions = env.legal_actions()
         action = random.choice(legal_actions)
-        # turn = env._game.turn
-        origin, dest = action_to_grids(action)
-        # piece = env._game.board.get(origin.row, origin.col).piece_type
+        origin, dest = action_to_locations(action)
         _, reward, done, _ = env.step(action)
-
+        
         print(f"Round: {round}")
-        # print(f"{turn} made the move {piece} from {origin} to {dest}.")
-        print(f"made the move from {origin} to {dest}.")
+        print(f"{Camp(env.turn).name} made the move from {origin} to {dest}.")
         print(f"Reward: {reward}")
         print("================")
+        env.render()
 
         round += 1
-        env.render()
     env.close()
 
 

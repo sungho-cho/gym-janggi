@@ -10,12 +10,13 @@ from gym_janggi.constants import (
 from gym_janggi.utils import (
     generate_random_game,
     board_to_obs,
-    action_to_grids,
-    grids_to_action,
+    action_to_locations,
+    locations_to_action,
 )
 
 
 class JanggiEnv(gym.Env):
+    """Open AI environment wrapper for Janggi."""
     metadata = {"render_modes": ["ansi"]}
 
     def __init__(self):
@@ -30,6 +31,97 @@ class JanggiEnv(gym.Env):
         self._game = generate_random_game()
         self.turn = self._game.turn.value
 
+    def step(self, action):
+        """
+        Apply action to the game.
+
+        Args:
+            action : action of the action_space to take.
+
+        Returns:
+            The new observation, the reward and a game-over boolean and info.
+        """
+        (origin, dest) = action_to_locations(action)
+        reward, done = self._game.make_action(origin, dest)
+        observation = self._get_obs()
+        info = self._get_info()
+
+        return observation, reward, done, info
+
+    def to_play(self) -> int:
+        """
+        Return the current player.
+
+        Returns:
+            The current player, it should be an element of the players list in the config.
+        """
+        return self._game.turn.value
+
+    def legal_actions(self):
+        """
+        Should return the legal actions at each turn, if it is not available, it can return
+        the whole action space. At each turn, the game have to be able to handle one of returned actions.
+
+        Returns:
+            An array of integers, subset of the action space.
+        """
+        actions = []
+        for origin, dest in self._game.get_all_actions():
+            actions.append(locations_to_action(origin, dest))
+        return actions
+
+    def reset(self, seed=None, return_info=False, options=None):
+        """
+        Reset the game for a new game.
+
+        Returns:
+            Initial observation of the game.
+        """
+        # We need the following line to seed self.np_random
+        super().reset(seed=seed)
+
+        self._game = generate_random_game()
+        observation = self._get_obs()
+        return observation
+
+    def close(self):
+        """
+        Properly close the game.
+        """
+        self._game = None
+
+    def render(self, mode='ansi'):
+        """
+        Display the game observation.
+        """
+        print(f"cho: {self._game.cho_score} / han: {self._game.han_score}")
+        print(self._game.board)
+
+    def human_input_to_action() -> int:
+        """
+        For multiplayer games, ask the user for a legal action
+        and return the corresponding action number.
+
+        Returns:
+            An integer from the action space.
+        """
+        action = int(input(f"Enter action (0~{ACTION_SPACE}):"))
+        if action > 0 and action < ACTION_SPACE:
+            return True, action
+        else:
+            return False, None
+
+    def action_to_human_input(self, action: int) -> str:
+        """
+        Convert an action number to a string representing the action.
+        Args:
+            action_number: an integer from the action space.
+        Returns:
+            String representing the action.
+        """
+        origin, dest = action_to_locations(action)
+        return f"({origin.row}, {origin.col}) to ({dest.row}, {dest.col})"
+
     def _get_obs(self):
         return board_to_obs(self._game.board)
 
@@ -38,45 +130,3 @@ class JanggiEnv(gym.Env):
             "cho_score": self._game.cho_score,
             "han_score": self._game.han_score,
         }
-
-    def reset(self, seed=None, return_info=False, options=None):
-        # We need the following line to seed self.np_random
-        super().reset(seed=seed)
-
-        self._game = generate_random_game()
-        observation = self._get_obs()
-        return observation
-
-    def step(self, action):
-        (origin, dest) = action_to_grids(action)
-        reward, done = self._game.make_move(origin, dest)
-        observation = self._get_obs()
-
-        return observation, reward, done
-
-    def legal_actions(self):
-        actions = []
-        for origin, dest in self._game.get_all_moves():
-            actions.append(grids_to_action(origin, dest))
-        return actions
-
-    def render(self, mode='ansi'):
-        print(f"cho: {self._game.cho_score} / han: {self._game.han_score}")
-        print(self._game.board)
-
-    def to_play(self) -> int:
-        return self._game.turn.value
-
-    def human_input_to_action() -> int:
-        action = int(input("Enter action (0~9999):"))
-        if action > 0 and action < 9999:
-            return True, action
-        else:
-            return False, None
-
-    def action_to_human_input(self, action: int):
-        origin, dest = action_to_grids(action)
-        return f"({origin.row}, {origin.col}) to ({dest.row}, {dest.col})"
-
-    def close(self):
-        self._game = None
