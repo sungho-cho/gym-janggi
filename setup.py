@@ -17,7 +17,7 @@ setup(
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
         "Operating System :: OS Independent",
     ],
-    packages=["gym_janggi"],
+    packages=["gym_janggi", "gym_janggi/envs"],
     python_requires=">=3.6",
     install_requires=["gym==0.23.1", "janggi==0.9.1"],
 )
