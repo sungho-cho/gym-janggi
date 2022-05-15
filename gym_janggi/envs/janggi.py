@@ -29,7 +29,6 @@ class JanggiEnv(gym.Env):
         self.action_space = spaces.Discrete(ACTION_SPACE)
 
         self._game = generate_random_game()
-        self.turn = self._game.turn.value
 
     def step(self, action):
         """
@@ -80,9 +79,10 @@ class JanggiEnv(gym.Env):
         # We need the following line to seed self.np_random
         super().reset(seed=seed)
 
+        history = self._game.history
         self._game = generate_random_game()
         observation = self._get_obs()
-        return observation
+        return observation, history
 
     def close(self):
         """

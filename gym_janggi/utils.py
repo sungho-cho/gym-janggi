@@ -2,7 +2,7 @@ from typing import Tuple
 import numpy as np
 import random
 
-from . import constants
+from gym_janggi import constants
 from janggi import (
     Board,
     Camp,
