@@ -14,7 +14,7 @@ from janggi import (
 
 def generate_random_game():
     """Generate a random Janggi game."""
-    camp = Camp(random.randint(0, 1))
+    camp = Camp(random.choice([-1, 1]))
     cho_formation = Formation(random.randint(1, 4))
     han_formation = Formation(random.randint(1, 4))
     return JanggiGame(camp, cho_formation, han_formation)
