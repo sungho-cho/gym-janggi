@@ -141,5 +141,5 @@ class JanggiEnv(gym.Env):
             board.put(to_location.row, to_location.col, piece)
             board.remove(from_location.row, from_location.col)
             board_logs.append(str(board))
-        return board
+        return board_logs
 
