@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="gym_janggi",
-    version="0.9.10",
+    version="0.9.11",
     author="Sungho Cho",
     author_email="didog9595@gmail.com",
     description="OpenAI Gym environment for Korean chess Janggi",

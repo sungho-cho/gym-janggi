@@ -70,7 +70,7 @@ def board_to_obs(board: Board) -> np.array:
     Returns:
         np.array: Integer array converted from Janggi board.
     """
-    int_board = np.full((NUM_ROWS, NUM_COLS), None)
+    int_board = np.full((NUM_ROWS, NUM_COLS), 0, dtype="int32")
     for row in range(MIN_ROW, MAX_ROW+1):
         for col in range(MIN_COL, MAX_COL+1):
             if board.get(row, col) is not None:

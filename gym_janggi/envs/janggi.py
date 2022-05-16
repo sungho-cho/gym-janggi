@@ -88,9 +88,8 @@ class JanggiEnv(gym.Env):
         """
         Properly close the game.
         """
-        move_logs = self._game.move_logs
         self._game = None
-        return move_logs
+        return
 
     def render(self, mode='ansi'):
         """
