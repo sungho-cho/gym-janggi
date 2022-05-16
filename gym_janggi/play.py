@@ -22,7 +22,7 @@ def main():
         _, reward, done, _ = env.step(action)
         
         print(f"Round: {round}")
-        print(f"{Camp(env.turn).name} made the move from {origin} to {dest}.")
+        print(f"{Camp(env.to_play()).name} made the move from {origin} to {dest}.")
         print(f"Reward: {reward}")
         print("================")
         env.render()

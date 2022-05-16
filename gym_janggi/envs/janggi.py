@@ -1,5 +1,5 @@
+from typing import List
 import gym
-from gym import spaces
 
 from gym_janggi.constants import (
     NUM_PIECE_TYPE,
@@ -20,13 +20,13 @@ class JanggiEnv(gym.Env):
     metadata = {"render_modes": ["ansi"]}
 
     def __init__(self):
-        self.observation_space = spaces.Box(
+        self.observation_space = gym.spaces.Box(
             low=-NUM_PIECE_TYPE,
             high=NUM_PIECE_TYPE,
             shape=(NUM_ROWS, NUM_COLS),
             dtype=int
         )
-        self.action_space = spaces.Discrete(ACTION_SPACE)
+        self.action_space = gym.spaces.Discrete(ACTION_SPACE)
 
         self._game = generate_random_game()
 
@@ -79,18 +79,18 @@ class JanggiEnv(gym.Env):
         # We need the following line to seed self.np_random
         super().reset(seed=seed)
 
-        history = self._game.history
+        move_logs = self._game.move_logs
         self._game = generate_random_game()
         observation = self._get_obs()
-        return observation, history
+        return observation, move_logs
 
     def close(self):
         """
         Properly close the game.
         """
-        history = self._game.history
+        move_logs = self._game.move_logs
         self._game = None
-        return history
+        return move_logs
 
     def render(self, mode='ansi'):
         """
@@ -132,3 +132,14 @@ class JanggiEnv(gym.Env):
             "cho_score": self._game.cho_score,
             "han_score": self._game.han_score,
         }
+
+    def simulate_logs(self, move_logs) -> List[str]:
+        board = self._game.initial_board
+        board_logs = [str(board)]
+        for from_location, to_location in move_logs:
+            piece = board.get(from_location.row, from_location.col)
+            board.put(to_location.row, to_location.col, piece)
+            board.remove(from_location.row, from_location.col)
+            board_logs.append(str(board))
+        return board
+

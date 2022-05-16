@@ -2,7 +2,10 @@ from typing import Tuple
 import numpy as np
 import random
 
-from gym_janggi import constants
+from gym_janggi.constants import (
+    MIN_ROW, MAX_ROW, MIN_COL, MAX_COL,
+    NUM_ROWS, NUM_COLS,
+)
 from janggi import (
     Board,
     Camp,
@@ -67,12 +70,11 @@ def board_to_obs(board: Board) -> np.array:
     Returns:
         np.array: Integer array converted from Janggi board.
     """
-    int_board = [[None for i in range(constants.NUM_COLS)]
-                 for j in range(constants.NUM_ROWS)]
-    for row in range(constants.MIN_ROW, constants.MAX_ROW+1):
-        for col in range(constants.MIN_COL, constants.MAX_COL+1):
+    int_board = np.full((NUM_ROWS, NUM_COLS), None)
+    for row in range(MIN_ROW, MAX_ROW+1):
+        for col in range(MIN_COL, MAX_COL+1):
             if board.get(row, col) is not None:
                 int_board[row][col] = int(board.get(row, col))
             else:
                 int_board[row][col] = 0
-    return np.array(int_board)
+    return int_board
