@@ -68,13 +68,13 @@ def board_to_obs(board: Board) -> np.array:
         board (Board): Current board state.
 
     Returns:
-        np.array: Integer array converted from Janggi board.
+        np.array: Float array converted from Janggi board.
     """
-    int_board = np.full((NUM_ROWS, NUM_COLS), 0, dtype="int32")
+    float_board = np.full((NUM_ROWS, NUM_COLS), 0.0, dtype="float32")
     for row in range(MIN_ROW, MAX_ROW+1):
         for col in range(MIN_COL, MAX_COL+1):
             if board.get(row, col) is not None:
-                int_board[row][col] = int(board.get(row, col))
+                float_board[row][col] = float(board.get(row, col))
             else:
-                int_board[row][col] = 0
-    return int_board
+                float_board[row][col] = 0.0
+    return float_board
