@@ -1,5 +1,7 @@
-from typing import List
 import gym
+from janggi import GameLog, GameWindow, ReplayViewer
+import pygame
+from typing import List, Optional
 
 from gym_janggi.constants import (
     NUM_PIECE_TYPE,
@@ -17,9 +19,10 @@ from gym_janggi.utils import (
 
 class JanggiEnv(gym.Env):
     """Open AI environment wrapper for Janggi."""
-    metadata = {"render_modes": ["ansi"]}
+    metadata = {"render_modes": ["human", "ansi"], "render_fps": 4}
 
-    def __init__(self):
+    def __init__(self, render_mode: Optional[str] = None):
+        assert render_mode is None or render_mode in self.metadata["render_modes"]
         self.observation_space = gym.spaces.Box(
             low=-NUM_PIECE_TYPE,
             high=NUM_PIECE_TYPE,
@@ -27,8 +30,12 @@ class JanggiEnv(gym.Env):
             dtype=int
         )
         self.action_space = gym.spaces.Discrete(ACTION_SPACE)
+        self.render_mode = render_mode
 
         self._game = generate_random_game()
+        if render_mode == "human":
+            self._game_window = GameWindow(self._game.board)
+            self.clock = pygame.time.Clock()
 
     def step(self, action):
         """
@@ -79,10 +86,12 @@ class JanggiEnv(gym.Env):
         # We need the following line to seed self.np_random
         super().reset(seed=seed)
 
-        move_logs = self._game.move_logs
+        game_log = self._game.log
         self._game = generate_random_game()
         observation = self._get_obs()
-        return observation, move_logs
+        if self.render_mode == "human":
+            self._game_window = GameWindow(self._game.board)
+        return observation, game_log
 
     def close(self):
         """
@@ -91,12 +100,17 @@ class JanggiEnv(gym.Env):
         self._game = None
         return
 
-    def render(self, mode='ansi'):
+    def render(self, mode="ansi"):
         """
         Display the game observation.
         """
-        print(f"cho: {self._game.cho_score} / han: {self._game.han_score}")
-        print(self._game.board)
+        if mode == "ansi":
+            print(f"cho: {self._game.cho_score} / han: {self._game.han_score}")
+            print(self._game.board)
+        elif mode == "human":
+            assert self._game_window is not None
+            self._game_window.render()
+            self.clock.tick(self.metadata["render_fps"])
 
     def human_input_to_action() -> int:
         """
@@ -131,14 +145,4 @@ class JanggiEnv(gym.Env):
             "cho_score": self._game.cho_score,
             "han_score": self._game.han_score,
         }
-
-    def simulate_logs(self, move_logs) -> List[str]:
-        board = self._game.initial_board
-        board_logs = [str(board)]
-        for from_location, to_location in move_logs:
-            piece = board.get(from_location.row, from_location.col)
-            board.put(to_location.row, to_location.col, piece)
-            board.remove(from_location.row, from_location.col)
-            board_logs.append(str(board))
-        return board_logs
 
