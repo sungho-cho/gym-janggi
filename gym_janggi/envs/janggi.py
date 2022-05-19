@@ -31,13 +31,7 @@ class JanggiEnv(gym.Env):
         )
         self.action_space = gym.spaces.Discrete(ACTION_SPACE)
         self.render_mode = render_mode
-
         self._game = generate_random_game()
-        if render_mode == "human":
-            self._game_window = GameWindow(self._game.board)
-            self.clock = pygame.time.Clock()
-        else:
-            self._game
 
     def step(self, action):
         """
@@ -106,12 +100,14 @@ class JanggiEnv(gym.Env):
         """
         Display the game observation.
         """
-        assert mode != "human" or (hasattr(self, "_game_window") and self._game_window is not None)
 
         if mode == "ansi":
             print(f"cho: {self._game.cho_score} / han: {self._game.han_score}")
             print(self._game.board)
         elif mode == "human":
+            if not hasattr(self, "_game_window"):
+                self._game_window = GameWindow(self._game.board)
+                self.clock = pygame.time.Clock()
             self._game_window.render()
             self.clock.tick(self.metadata["render_fps"])
 

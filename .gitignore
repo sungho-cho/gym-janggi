@@ -54,3 +54,6 @@ docs/_build/
 
 # PyCharm
 .idea
+
+# Python
+.python-version
