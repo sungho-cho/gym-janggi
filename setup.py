@@ -19,5 +19,5 @@ setup(
     ],
     packages=["gym_janggi", "gym_janggi/envs"],
     python_requires=">=3.6",
-    install_requires=["gym==0.23.1", "janggi==0.9.11"],
+    install_requires=["gym==0.23.1", "janggi==0.9.13"],
 )
