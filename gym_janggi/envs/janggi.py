@@ -104,11 +104,12 @@ class JanggiEnv(gym.Env):
         """
         Display the game observation.
         """
+        assert mode != "human" or self._game_window is not None
+
         if mode == "ansi":
             print(f"cho: {self._game.cho_score} / han: {self._game.han_score}")
             print(self._game.board)
         elif mode == "human":
-            assert self._game_window is not None
             self._game_window.render()
             self.clock.tick(self.metadata["render_fps"])
 
