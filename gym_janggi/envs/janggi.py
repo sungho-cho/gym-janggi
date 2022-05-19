@@ -36,6 +36,8 @@ class JanggiEnv(gym.Env):
         if render_mode == "human":
             self._game_window = GameWindow(self._game.board)
             self.clock = pygame.time.Clock()
+        else:
+            self._game
 
     def step(self, action):
         """
@@ -104,7 +106,7 @@ class JanggiEnv(gym.Env):
         """
         Display the game observation.
         """
-        assert mode != "human" or self._game_window is not None
+        assert mode != "human" or (hasattr(self, "_game_window") and self._game_window is not None)
 
         if mode == "ansi":
             print(f"cho: {self._game.cho_score} / han: {self._game.han_score}")
