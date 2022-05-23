@@ -1,6 +1,5 @@
 from typing import Tuple
 import numpy as np
-import random
 
 from gym_janggi.constants import (
     MIN_ROW, MAX_ROW, MIN_COL, MAX_COL,
@@ -8,19 +7,8 @@ from gym_janggi.constants import (
 )
 from janggi import (
     Board,
-    Camp,
-    Formation,
     Location,
-    JanggiGame
 )
-
-
-def generate_random_game():
-    """Generate a random Janggi game."""
-    camp = Camp(random.choice([-1, 1]))
-    cho_formation = Formation(random.randint(1, 4))
-    han_formation = Formation(random.randint(1, 4))
-    return JanggiGame(camp, cho_formation, han_formation)
 
 
 def locations_to_action(origin: Location, dest: Location) -> int:

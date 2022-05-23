@@ -1,5 +1,8 @@
 import gym
-from janggi import GameLog, GameWindow, ReplayViewer
+from janggi import (
+    GameWindow, 
+    generate_random_game,
+)
 import pygame
 from typing import List, Optional
 
@@ -10,7 +13,6 @@ from gym_janggi.constants import (
     ACTION_SPACE,
 )
 from gym_janggi.utils import (
-    generate_random_game,
     board_to_obs,
     action_to_locations,
     locations_to_action,
@@ -85,8 +87,6 @@ class JanggiEnv(gym.Env):
         game_log = self._game.log
         self._game = generate_random_game()
         observation = self._get_obs()
-        if self.render_mode == "human":
-            self._game_window = GameWindow(self._game.board)
         return observation, game_log
 
     def close(self):
