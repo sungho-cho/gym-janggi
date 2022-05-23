@@ -21,7 +21,7 @@ def main():
         action = random.choice(legal_actions)
         origin, dest = action_to_locations(action)
         _, reward, done, _ = env.step(action)
-        
+
         print(f"Round: {round}")
         print(f"{Camp(env.to_play()).name} made the move from {origin} to {dest}.")
         print(f"Reward: {reward}")

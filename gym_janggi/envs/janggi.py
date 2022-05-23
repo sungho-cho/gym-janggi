@@ -1,6 +1,6 @@
 import gym
 from janggi import (
-    GameWindow, 
+    GameWindow,
     generate_random_game,
 )
 import pygame
@@ -49,6 +49,8 @@ class JanggiEnv(gym.Env):
         reward, done = self._game.make_action(origin, dest)
         observation = self._get_obs()
         info = self._get_info()
+        if done:
+            info["log"] = self._game.log
 
         return observation, reward, done, info
 
@@ -84,10 +86,9 @@ class JanggiEnv(gym.Env):
         # We need the following line to seed self.np_random
         super().reset(seed=seed)
 
-        game_log = self._game.log
         self._game = generate_random_game()
         observation = self._get_obs()
-        return observation, game_log
+        return observation
 
     def close(self):
         """
@@ -144,4 +145,3 @@ class JanggiEnv(gym.Env):
             "cho_score": self._game.cho_score,
             "han_score": self._game.han_score,
         }
-
