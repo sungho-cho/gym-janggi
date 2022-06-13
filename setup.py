@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="gym_janggi",
-    version="1.0.0",
+    version="0.9.22",
     author="Sungho Cho",
     author_email="didog9595@gmail.com",
     description="OpenAI Gym environment for Korean chess Janggi",
@@ -19,5 +19,5 @@ setup(
     ],
     packages=["gym_janggi", "gym_janggi/envs"],
     python_requires=">=3.6",
-    install_requires=["gym==0.23.1", "janggi==1.0.2"],
+    install_requires=["gym==0.23.1", "janggi==1.0.3"],
 )

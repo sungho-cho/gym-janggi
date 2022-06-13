@@ -3,6 +3,7 @@ from janggi import (
     GameWindow,
     generate_random_game,
 )
+import numpy as np
 import pygame
 from typing import List, Optional
 
@@ -13,7 +14,7 @@ from gym_janggi.constants import (
     ACTION_SPACE,
 )
 from gym_janggi.utils import (
-    board_to_obs,
+    board_to_float_array,
     action_to_locations,
     locations_to_action,
 )
@@ -140,7 +141,10 @@ class JanggiEnv(gym.Env):
         return f"({origin.row}, {origin.col}) to ({dest.row}, {dest.col})"
 
     def _get_obs(self):
-        return board_to_obs(self._game.board)
+        obs = board_to_float_array(self._game.board)
+        if self._game.turn != self._game.player:
+            obs = np.flip(obs)
+        return obs
 
     def _get_info(self):
         return {

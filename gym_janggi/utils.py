@@ -48,9 +48,9 @@ def action_to_locations(action: int) -> Tuple[Location, Location]:
     return origin, dest
 
 
-def board_to_obs(board: Board) -> np.array:
+def board_to_float_array(board: Board) -> np.array:
     """
-    Convert Board into observation space in format of numpy.array.
+    Convert Board into float numpy.array.
 
     Args:
         board (Board): Current board state.
