@@ -129,8 +129,10 @@ class JanggiEnv(gym.Env):
     def action_to_human_input(self, action: int) -> str:
         """
         Convert an action number to a string representing the action.
+
         Args:
             action_number: an integer from the action space.
+
         Returns:
             String representing the action.
         """

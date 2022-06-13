@@ -1,37 +1,87 @@
-## Welcome to GitHub Pages
+# gym-janggi package
 
-You can use the [editor on GitHub](https://github.com/sungho-cho/gym-janggi/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
+## Subpackages
+* [gym_janggi.envs.janggi module](#gymjanggienvsjanggi-module)
+  * [action_to_human_input](#actiontohumaninput)
+  * [janggi.base.camp module](#janggibasecamp-module)
+  * [janggi.base.formation module](#janggibaseformation-module)
+  * [janggi.base.location module](#janggibaselocation-module)
+  * [janggi.base.move module](#janggibasemove-module)
+  * [janggi.base.piece module](#janggibasepiece-module)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
+# gym_janggi.envs.janggi module
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## _class_ gym_janggi.envs.janggi.JanggiEnv(render_mode: Optional[str] = None)
+Bases: `Env`
 
-```markdown
-Syntax highlighted code block
+Open AI environment wrapper for Janggi.
 
-# Header 1
-## Header 2
-### Header 3
+### action_to_human_input(action: int)
+Convert an action number to a string representing the action.
 
-- Bulleted
-- List
+Args:
 
-1. Numbered
-2. List
+    action_number: an integer from the action space.
 
-**Bold** and _Italic_ and `Code` text
+Returns:
 
-[Link](url) and ![Image](src)
-```
+    String representing the action.
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 
-### Jekyll Themes
+### close()
+Properly close the game.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/sungho-cho/gym-janggi/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
-### Support or Contact
+### human_input_to_action()
+For multiplayer games, ask the user for a legal action
+and return the corresponding action number.
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+Returns:
+
+    An integer from the action space.
+
+
+### legal_actions()
+Should return the legal actions at each turn, if it is not available, it can return
+the whole action space. At each turn, the game have to be able to handle one of returned actions.
+
+Returns:
+
+    An array of integers, subset of the action space.
+
+
+### metadata(_ = {'render_fps': 4, 'render_modes': ['human', 'ansi']_ )
+
+### observation_space(_: spaces.Space[ObsType_ )
+
+### render(mode='ansi')
+Display the game observation.
+
+
+### reset(seed=None, return_info=False, options=None)
+Reset the game for a new game.
+
+Returns:
+
+    Initial observation of the game.
+
+
+### step(action)
+Apply action to the game.
+
+Args:
+
+    action : action of the action_space to take.
+
+Returns:
+
+    The new observation, the reward and a game-over boolean and info.
+
+
+### to_play()
+Return the current player.
+
+Returns:
+
+    The current player, it should be an element of the players list in the config.
