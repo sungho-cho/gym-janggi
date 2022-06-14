@@ -2,13 +2,13 @@
 
 ## Subpackages
 * [gym_janggi.envs.janggi module](#gymjanggienvsjanggi-module)
-  * [step](stepaction)
-  * [to_play](to_play)
-  * [legal_actions](legal_actions)
-  * [reset](resetseednone-return_infofalse-optionsnone)
+  * [step](#stepaction)
+  * [to_play](#to_play)
+  * [legal_actions](#legal_actions)
+  * [reset](#resetseednone-return_infofalse-optionsnone)
   * [close](#close)
-  * [render](rendermodeansi)
-  * [human_input_to_action](human_input_to_action)
+  * [render](#rendermodeansi)
+  * [human_input_to_action](#human_input_to_action)
   * [action_to_human_input](#action_to_human_inputaction-int)
 
 
