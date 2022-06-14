@@ -18,11 +18,11 @@ Check out the [GitHub Page](https://sungho-cho.github.io/gym-janggi/) for Gym en
 
     `import gym_janggi`
 
-3. Make a Gym environment instance
+3. Make a Gym environment instance:
 
     `gym.make("gym_janggi/Janggi-v0")`
 
-    Check out the [Documentation](#documentation) section for more details
+    Check out the [Documentation](#documentation) section for more details.
 
 
 ### Testing Functionality
@@ -40,5 +40,11 @@ Check out the [GitHub Page](https://sungho-cho.github.io/gym-janggi/) for Gym en
 
     `python gym_janggi/play.py`
 
-    If you see the UI window and moves being played, your PyJanggi package is working!
+    If you see the UI window and moves being played, the package is working!
 
+
+## Releases
+Check out the [PyPi Package](https://pypi.org/project/gym-janggi) for releases.
+
+## License
+This package is licensed under the [GNU General Public License v3.0](LICENSE).
